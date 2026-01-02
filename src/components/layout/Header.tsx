@@ -118,7 +118,7 @@ export function Header() {
                 </Button>
               </Link>
               <Link to="/signup">
-                <Button size="sm">Get Started</Button>
+                <Button size="sm">Get Startedrrr</Button>
               </Link>
             </>
           )}
