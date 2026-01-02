@@ -93,7 +93,7 @@ export default function Index() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((feature, index) => <div key={index} style={{
             animationDelay: `${index * 100}ms`
-          }} className="card-elevated p-6 group hover:transition-all duration-300 animate-slide-up">
+          }} className="card-elevated p-6 group hover:transition-all duration-300 animate-slide-up rounded-none">
                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
                   {feature.icon}
                 </div>
