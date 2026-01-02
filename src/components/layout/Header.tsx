@@ -21,7 +21,7 @@ export function Header() {
     return '/student-dashboard';
   };
   return <header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-lg">
-      <div className="page-container flex h-16 items-center justify-between">
+      <div className="page-container h-16 items-center justify-between border-none shadow-sm flex flex-row">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 group">
           <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">

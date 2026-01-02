@@ -37,7 +37,7 @@ export default function Index() {
       {/* Hero Section */}
       <section className="relative py-24 lg:py-32 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent" />
-        <div className="page-container relative">
+        <div className="page-container relative shadow-none">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-display text-foreground mb-6 animate-slide-up">
               Launch Your Career with the{' '}
