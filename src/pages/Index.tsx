@@ -105,9 +105,9 @@ export default function Index() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24">
+      <section className="py-24 bg-primary-foreground">
         <div className="page-container">
-          <div className="card-elevated p-12 lg:p-16 text-center bg-gradient-to-br from-primary/5 to-transparent border-primary/10">
+          <div className="card-elevated p-12 lg:p-16 text-center bg-gradient-to-br from-primary/5 to-transparent border-0 border-none border-transparent rounded-none shadow-none bg-primary-foreground">
             <h2 className="text-heading text-foreground mb-4">
               Ready to Start Your Journey?
             </h2>
