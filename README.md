@@ -1,73 +1,49 @@
-# Welcome to your Lovable project
+# OpenRole
 
-## Project info
+OpenRole is a modern web application designed to help users explore roles, career paths, and opportunities tailored to their skills and interests. Built as a single-page application (SPA), it’s fully responsive, SEO-optimized, and production-ready.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+---
 
-## How can I edit this code?
+## 🌐 Live Demo
 
-There are several ways of editing your application.
+[https://openrole-connect.vercel.app](https://openrole-connect.vercel.app)
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## ⚡ Features
 
-Changes made via Lovable will be committed automatically to this repo.
+- **Role & Career Exploration** – Discover available roles and potential career paths.
+- **Responsive Design** – Fully optimized for desktop, tablet, and mobile.
+- **SEO & Social Optimized** – Meta tags, Open Graph, Twitter cards, and structured data for rich search results.
+- **Performance Optimized** – Preloaded fonts, preconnect, and asynchronous scripts for minimal page load impact.
+- **Modern Frontend Stack** – Built with a production-ready SPA setup, modular components, and Tailwind CSS.
+- **Accessibility First** – Semantic HTML, keyboard-friendly navigation, and focus states included.
+- **Future-proof Architecture** – Environment-ready scripts for analytics, dark/light theme support, and canonical URLs.
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 🛠️ Tech Stack
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- **Frontend:** HTML, TypeScript, Vite
+- **Styling:** Tailwind CSS with utility-first design
+- **Deployment:** Vercel
+- **SEO & Social:** Open Graph, Twitter Cards, JSON-LD structured data
+- **Performance:** Preloading fonts, preconnect to CDNs, antialiased text, minimal JS bundle
+- **Optional Analytics:** Google Analytics / GTM integration with consent logic
 
-Follow these steps:
+---
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 📂 Project Structure
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+```text
+/
+├─ public/               # Static assets (favicon, OG images, fonts)
+├─ src/
+│  ├─ main.tsx           # Entry point
+│  ├─ components/        # Reusable UI components
+│  ├─ pages/             # Page components
+│  └─ styles/            # Tailwind customizations
+├─ dist/                 # Production build output
+├─ index.html            # Production-ready HTML template
+├─ tailwind.config.js    # Tailwind configuration
+└─ package.json          # Project dependencies and scripts
