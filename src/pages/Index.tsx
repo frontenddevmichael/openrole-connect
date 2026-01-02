@@ -3,39 +3,35 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Briefcase, Users, Shield, Sparkles } from 'lucide-react';
-
-const features = [
-  {
-    icon: <Briefcase className="w-6 h-6" />,
-    title: 'Curated Opportunities',
-    description: 'Quality internships from verified organizations across all industries.',
-  },
-  {
-    icon: <Users className="w-6 h-6" />,
-    title: 'Direct Applications',
-    description: 'Apply directly and track your application status in real-time.',
-  },
-  {
-    icon: <Shield className="w-6 h-6" />,
-    title: 'Verified Organizations',
-    description: 'Every organization is reviewed to ensure legitimate opportunities.',
-  },
-  {
-    icon: <Sparkles className="w-6 h-6" />,
-    title: 'Smart Matching',
-    description: 'Find internships that match your skills and career goals.',
-  },
-];
-
-const stats = [
-  { value: '500+', label: 'Active Internships' },
-  { value: '1,200+', label: 'Students Placed' },
-  { value: '300+', label: 'Organizations' },
-];
-
+const features = [{
+  icon: <Briefcase className="w-6 h-6" />,
+  title: 'Curated Opportunities',
+  description: 'Quality internships from verified organizations across all industries.'
+}, {
+  icon: <Users className="w-6 h-6" />,
+  title: 'Direct Applications',
+  description: 'Apply directly and track your application status in real-time.'
+}, {
+  icon: <Shield className="w-6 h-6" />,
+  title: 'Verified Organizations',
+  description: 'Every organization is reviewed to ensure legitimate opportunities.'
+}, {
+  icon: <Sparkles className="w-6 h-6" />,
+  title: 'Smart Matching',
+  description: 'Find internships that match your skills and career goals.'
+}];
+const stats = [{
+  value: '500+',
+  label: 'Active Internships'
+}, {
+  value: '1,200+',
+  label: 'Students Placed'
+}, {
+  value: '300+',
+  label: 'Organizations'
+}];
 export default function Index() {
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Header />
       
       {/* Hero Section */}
@@ -47,11 +43,15 @@ export default function Index() {
               Launch Your Career with the{' '}
               <span className="text-primary">Right Internship</span>
             </h1>
-            <p className="text-lg text-muted-foreground mb-8 animate-slide-up" style={{ animationDelay: '100ms' }}>
+            <p className="text-lg text-muted-foreground mb-8 animate-slide-up" style={{
+            animationDelay: '100ms'
+          }}>
               Connect with top organizations offering meaningful internship experiences. 
               Build your skills, grow your network, and start your professional journey.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-slide-up" style={{ animationDelay: '200ms' }}>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-slide-up" style={{
+            animationDelay: '200ms'
+          }}>
               <Link to="/internships">
                 <Button size="lg" className="gap-2 min-w-[180px]">
                   Browse Internships
@@ -67,13 +67,13 @@ export default function Index() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto mt-20 animate-fade-in" style={{ animationDelay: '300ms' }}>
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center">
+          <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto mt-20 animate-fade-in" style={{
+          animationDelay: '300ms'
+        }}>
+            {stats.map((stat, index) => <div key={index} className="text-center">
                 <div className="text-3xl font-bold text-primary mb-1">{stat.value}</div>
                 <div className="text-sm text-muted-foreground">{stat.label}</div>
-              </div>
-            ))}
+              </div>)}
           </div>
         </div>
       </section>
@@ -91,19 +91,15 @@ export default function Index() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {features.map((feature, index) => (
-              <div 
-                key={index} 
-                className="card-elevated p-6 group hover:border-primary/20 transition-all duration-300 animate-slide-up"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
+            {features.map((feature, index) => <div key={index} style={{
+            animationDelay: `${index * 100}ms`
+          }} className="card-elevated p-6 group hover:transition-all duration-300 animate-slide-up">
                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
                   {feature.icon}
                 </div>
                 <h3 className="font-semibold mb-2">{feature.title}</h3>
                 <p className="text-sm text-muted-foreground">{feature.description}</p>
-              </div>
-            ))}
+              </div>)}
           </div>
         </div>
       </section>
@@ -136,6 +132,5 @@ export default function Index() {
       </section>
 
       <Footer />
-    </div>
-  );
+    </div>;
 }
