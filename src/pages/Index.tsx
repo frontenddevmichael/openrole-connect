@@ -40,9 +40,9 @@ const howItWorksSteps = [
 ];
 
 const testimonials = [
-  { name: 'Sarah Chen', company: 'TechCorp', quote: 'OpenRole made finding my internship so easy. I applied to 5 companies and got 3 interviews within a week!' },
-  { name: 'Michael Rodriguez', company: 'BrandFlow', quote: 'The platform is intuitive and the opportunities are legitimate. I found my perfect internship in just 2 weeks.' },
-  { name: 'Priya Patel', company: 'Creative Studio', quote: 'Love how I can track all my applications in one place. Got my dream internship at a top design agency!' }
+  { name: 'Michael Omale', company: 'TechCorp', quote: 'OpenRole made finding my internship so easy. I applied to 5 companies and got 3 interviews within a week!' },
+  { name: 'Bola Joseph', company: 'BrandFlow', quote: 'The platform is intuitive and the opportunities are legitimate. I found my perfect internship in just 2 weeks.' },
+  { name: 'Ivy agbai', company: 'Creative Studio', quote: 'Love how I can track all my applications in one place. Got my dream internship at a top design agency!' }
 ];
 
 const trustedCompanies = ['Google', 'Microsoft', 'Amazon', 'Meta', 'Apple', 'Netflix'];
