@@ -79,7 +79,7 @@ export default function Index() {
       </section>
 
       {/* Features Section */}
-      <section className="py-24 bg-foreground">
+      <section className="py-24 bg-secondary">
         <div className="page-container">
           <div className="text-center mb-16">
             <h2 className="text-heading text-foreground mb-4">
