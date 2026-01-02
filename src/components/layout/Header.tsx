@@ -1,32 +1,26 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/lib/auth';
 import { Button } from '@/components/ui/button';
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuSeparator, 
-  DropdownMenuTrigger 
-} from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { User, LogOut, Settings, Briefcase, BookmarkIcon } from 'lucide-react';
-
 export function Header() {
-  const { user, profile, isAdmin, signOut } = useAuth();
+  const {
+    user,
+    profile,
+    isAdmin,
+    signOut
+  } = useAuth();
   const navigate = useNavigate();
-
   const handleSignOut = async () => {
     await signOut();
     navigate('/');
   };
-
   const getDashboardPath = () => {
     if (isAdmin) return '/admin-dashboard';
     if (profile?.role === 'organization') return '/organization-dashboard';
     return '/student-dashboard';
   };
-
-  return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-lg">
+  return <header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-lg">
       <div className="page-container flex h-16 items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 group">
@@ -40,26 +34,15 @@ export function Header() {
 
         {/* Navigation */}
         <nav className="hidden md:flex items-center gap-6">
-          <Link 
-            to="/internships" 
-            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Browse Internships
-          </Link>
-          {profile?.role === 'organization' && (
-            <Link 
-              to="/organization-dashboard/post" 
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-            >
+          
+          {profile?.role === 'organization' && <Link to="/organization-dashboard/post" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               Post Internship
-            </Link>
-          )}
+            </Link>}
         </nav>
 
         {/* Auth Section */}
         <div className="flex items-center gap-3">
-          {user || isAdmin ? (
-            <DropdownMenu>
+          {user || isAdmin ? <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-9 w-9 rounded-full">
                   <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
@@ -81,27 +64,21 @@ export function Header() {
                   <Briefcase className="mr-2 h-4 w-4" />
                   Dashboard
                 </DropdownMenuItem>
-                {profile?.role === 'student' && (
-                  <DropdownMenuItem onClick={() => navigate('/student-dashboard/saved')}>
+                {profile?.role === 'student' && <DropdownMenuItem onClick={() => navigate('/student-dashboard/saved')}>
                     <BookmarkIcon className="mr-2 h-4 w-4" />
                     Saved Internships
-                  </DropdownMenuItem>
-                )}
-                {!isAdmin && (
-                  <DropdownMenuItem onClick={() => navigate(`${getDashboardPath()}/profile`)}>
+                  </DropdownMenuItem>}
+                {!isAdmin && <DropdownMenuItem onClick={() => navigate(`${getDashboardPath()}/profile`)}>
                     <Settings className="mr-2 h-4 w-4" />
                     Profile Settings
-                  </DropdownMenuItem>
-                )}
+                  </DropdownMenuItem>}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleSignOut} className="text-destructive focus:text-destructive">
                   <LogOut className="mr-2 h-4 w-4" />
                   Sign Out
                 </DropdownMenuItem>
               </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <>
+            </DropdownMenu> : <>
               <Link to="/login">
                 <Button variant="ghost" size="sm">
                   Sign In
@@ -112,10 +89,8 @@ export function Header() {
                   Get Started
                 </Button>
               </Link>
-            </>
-          )}
+            </>}
         </div>
       </div>
-    </header>
-  );
+    </header>;
 }
