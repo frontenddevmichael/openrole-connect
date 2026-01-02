@@ -79,7 +79,7 @@ export default function Index() {
       </section>
 
       {/* Features Section */}
-      <section className="py-24 bg-surface-sunken">
+      <section className="py-24 bg-foreground">
         <div className="page-container">
           <div className="text-center mb-16">
             <h2 className="text-heading text-foreground mb-4">
@@ -107,7 +107,7 @@ export default function Index() {
       {/* CTA Section */}
       <section className="py-24 bg-primary-foreground">
         <div className="page-container">
-          <div className="card-elevated p-12 lg:p-16 text-center bg-gradient-to-br from-primary/5 to-transparent border-0 border-none border-transparent rounded-none shadow-none bg-primary-foreground">
+          <div className="card-elevated p-12 lg:p-16 text-center bg-primary-foreground">
             <h2 className="text-heading text-foreground mb-4">
               Ready to Start Your Journey?
             </h2>
