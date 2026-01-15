@@ -1,6 +1,8 @@
 # OpenRole
 
-OpenRole is a modern web application designed to help users explore roles, career paths, and opportunities tailored to their skills and interests. Built as a single-page application (SPA), it’s fully responsive, SEO-optimized, and production-ready.
+OpenRole is a web app that helps people explore roles and career paths that match their skills and interests. It’s designed to be simple, intuitive, and useful—so users can figure out their next steps without feeling overwhelmed.
+
+This is a single-page app (SPA) that works on all devices, loads fast, and is optimized for search engines from the get-go.
 
 ---
 
@@ -12,24 +14,24 @@ OpenRole is a modern web application designed to help users explore roles, caree
 
 ## ⚡ Features
 
-- **Role & Career Exploration** – Discover available roles and potential career paths.
-- **Responsive Design** – Fully optimized for desktop, tablet, and mobile.
-- **SEO & Social Optimized** – Meta tags, Open Graph, Twitter cards, and structured data for rich search results.
-- **Performance Optimized** – Preloaded fonts, preconnect, and asynchronous scripts for minimal page load impact.
-- **Modern Frontend Stack** – Built with a production-ready SPA setup, modular components, and Tailwind CSS.
-- **Accessibility First** – Semantic HTML, keyboard-friendly navigation, and focus states included.
-- **Future-proof Architecture** – Environment-ready scripts for analytics, dark/light theme support, and canonical URLs.
+- **Role & Career Discovery** – Explore roles and realistic career paths you can grow into.  
+- **Responsive Design** – Works smoothly on mobile, tablet, and desktop.  
+- **SEO & Social Ready** – Optimized for Google search and social media sharing.  
+- **Fast & Efficient** – Preloaded fonts, non-blocking scripts, and minimal JS bundle.  
+- **Clean Frontend Setup** – Built as an SPA with modular components for easy updates.  
+- **Accessibility First** – Semantic HTML, keyboard-friendly navigation, and focus indicators.  
+- **Future-Proof** – Easily integrates analytics, theming, and future enhancements.
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Frontend:** HTML, TypeScript, Vite
-- **Styling:** Tailwind CSS with utility-first design
-- **Deployment:** Vercel
-- **SEO & Social:** Open Graph, Twitter Cards, JSON-LD structured data
-- **Performance:** Preloading fonts, preconnect to CDNs, antialiased text, minimal JS bundle
-- **Optional Analytics:** Google Analytics / GTM integration with consent logic
+- **Frontend:** HTML, TypeScript, Vite  
+- **Styling:** Tailwind CSS  
+- **Hosting:** Vercel  
+- **SEO & Sharing:** Open Graph, Twitter Cards, JSON-LD structured data  
+- **Performance Optimizations:** Preloaded fonts, CDN preconnects, lean JS  
+- **Optional Analytics:** Google Analytics or GTM with consent handling
 
 ---
 
@@ -37,13 +39,14 @@ OpenRole is a modern web application designed to help users explore roles, caree
 
 ```text
 /
-├─ public/               # Static assets (favicon, OG images, fonts)
+├─ public/               # Static files (favicon, OG images, fonts)
 ├─ src/
-│  ├─ main.tsx           # Entry point
+│  ├─ main.tsx           # App entry point
 │  ├─ components/        # Reusable UI components
 │  ├─ pages/             # Page components
 │  └─ styles/            # Tailwind customizations
-├─ dist/                 # Production build output
-├─ index.html            # Production-ready HTML template
-├─ tailwind.config.js    # Tailwind configuration
-└─ package.json          # Project dependencies and scripts
+├─ dist/                 # Production build
+├─ index.html            # Main HTML file
+├─ tailwind.config.js    # Tailwind setup
+└─ package.json          # Scripts and dependencies
+
