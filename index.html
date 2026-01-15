@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary Meta -->
+    <title>OpenRole — Discover Roles, Career Paths & Opportunities</title>
+    <meta
+      name="description"
+      content="OpenRole helps you explore roles, career paths, and opportunities tailored to your skills and interests."
+    />
+    <meta name="author" content="OpenRole" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="OpenRole — Discover Roles, Career Paths & Opportunities" />
+    <meta
+      property="og:description"
+      content="Explore roles, career paths, and opportunities designed to help you make informed career decisions."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://openrole-connect.vercel.app" />
+    <meta property="og:image" content="https://openrole-connect.vercel.app/og-image.png" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="OpenRole — Discover Roles & Career Paths" />
+    <meta
+      name="twitter:description"
+      content="Find roles, understand career paths, and explore opportunities that match your goals."
+    />
+    <meta name="twitter:image" content="https://openrole-connect.vercel.app/og-image.png" />
+    <meta name="twitter:site" content="@OpenRole" />
+
+    <!-- Theme & Mobile UX -->
+    <meta name="theme-color" content="#0B0B0B" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Preload Fonts / Performance -->
+    <link rel="preload" href="/assets/fonts/Inter-VariableFont.woff2" as="font" type="font/woff2" crossorigin />
+
+    <!-- Canonical for SEO -->
+    <link rel="canonical" href="https://openrole-connect.vercel.app" />
+
+    <!-- Structured Data for SEO & Rich Snippets -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "OpenRole",
+      "url": "https://openrole-connect.vercel.app",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://openrole-connect.vercel.app/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- Optional: Preconnect / DNS Prefetch for External Assets -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  </head>
+
+  <body class="bg-background text-foreground antialiased">
+    <div id="root"></div>
+
+    <!-- Production JS -->
+    <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Analytics / Privacy (optional) -->
+    <!-- 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXX');
+    </script>
+    -->
+  </body>
+</html>
