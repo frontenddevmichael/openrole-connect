@@ -2,7 +2,9 @@ import { Link } from 'react-router-dom';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import mock from '../assets/mock.png';
+import { useHomeStats } from '@/hooks/useHomeStats';
 
 import {
   ArrowRight,
@@ -15,7 +17,8 @@ import {
   Bell,
   TrendingUp,
   Building2,
-  Quote
+  MapPin,
+  DollarSign
 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 
@@ -26,26 +29,12 @@ const features = [
   { icon: <Target className="w-6 h-6" />, title: 'Smart Matching', description: 'Find internships that match your skills and career goals.' }
 ];
 
-const stats = [
-  { value: 500, label: 'Active Internships', suffix: '+' },
-  { value: 1200, label: 'Students Placed', suffix: '+' },
-  { value: 300, label: 'Organizations', suffix: '+' }
-];
-
 const howItWorksSteps = [
   { icon: <UserCheck className="w-8 h-8" />, title: 'Create Your Profile', description: 'Sign up and tell us about your skills, interests, and career goals.', step: '01' },
   { icon: <Briefcase className="w-8 h-8" />, title: 'Browse & Apply', description: 'Explore opportunities matched to your profile and apply with one click.', step: '02' },
   { icon: <Bell className="w-8 h-8" />, title: 'Track Applications', description: 'Monitor your application status and communicate with employers.', step: '03' },
   { icon: <TrendingUp className="w-8 h-8" />, title: 'Get Hired', description: 'Land your dream internship and launch your career journey.', step: '04' }
 ];
-
-const testimonials = [
-  { name: 'Michael Omale', company: 'TechCorp', quote: 'OpenRole made finding my internship so easy. I applied to 5 companies and got 3 interviews within a week!' },
-  { name: 'Bola Joseph', company: 'BrandFlow', quote: 'The platform is intuitive and the opportunities are legitimate. I found my perfect internship in just 2 weeks.' },
-  { name: 'Ivy agbai', company: 'Creative Studio', quote: 'Love how I can track all my applications in one place. Got my dream internship at a top design agency!' }
-];
-
-const trustedCompanies = ['Google', 'Microsoft', 'Amazon', 'Meta', 'Apple', 'Netflix'];
 
 
 // Scroll Animation Hook
@@ -78,45 +67,20 @@ function useScrollAnimation() {
 }
 
 
-function AnimatedCounter({ end, duration = 2000, suffix = '' }) {
-  const [count, setCount] = useState(0);
-  const [hasAnimated, setHasAnimated] = useState(false);
-
-  useEffect(() => {
-    if (hasAnimated) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setHasAnimated(true);
-          let startTime: number | null = null;
-          const animate = (currentTime: number) => {
-            if (!startTime) startTime = currentTime;
-            const progress = Math.min((currentTime - startTime) / duration, 1);
-            setCount(Math.floor(progress * end));
-            if (progress < 1) requestAnimationFrame(animate);
-          };
-          requestAnimationFrame(animate);
-        }
-      },
-      { threshold: 0.5 }
-    );
-
-    const element = document.getElementById('stats-section');
-    if (element) observer.observe(element);
-
-    return () => observer.disconnect();
-  }, [end, duration, hasAnimated]);
-
-  return <span>{count.toLocaleString()}{suffix}</span>;
-}
 
 export default function Index() {
+  const { stats, featuredInternships, organizations } = useHomeStats();
   const [howItWorksRef, howItWorksVisible] = useScrollAnimation();
-  const [testimonialsRef, testimonialsVisible] = useScrollAnimation();
+  const [featuredRef, featuredVisible] = useScrollAnimation();
   const [featuresRef, featuresVisible] = useScrollAnimation();
   const [organizationsRef, organizationsVisible] = useScrollAnimation();
   const [finalCtaRef, finalCtaVisible] = useScrollAnimation();
+
+  const workTypeLabels: Record<string, string> = {
+    remote: 'Remote',
+    onsite: 'On-site',
+    hybrid: 'Hybrid',
+  };
 
 
   return (
@@ -156,21 +120,23 @@ export default function Index() {
                 </Link>
               </div>
 
-              {/* Trusted By */}
-              <div className="mt-12 animate-fade-in" style={{ animationDelay: '300ms' }}>
-                <p className="text-sm font-bold text-foreground mb-4 uppercase tracking-wide">Trusted by students at:</p>
-                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6">
-                  {trustedCompanies.slice(0, 4).map((company, index) => (
-                    <div
-                      key={index}
-                      className="text-foreground font-bold text-sm hover:text-primary transition-colors border-b-2 border-transparent hover:border-primary cursor-pointer animate-fade-in"
-                      style={{ animationDelay: `${400 + index * 50}ms` }}
-                    >
-                      {company}
-                    </div>
-                  ))}
+              {/* Trusted By - Real Organizations */}
+              {organizations.length > 0 && (
+                <div className="mt-12 animate-fade-in" style={{ animationDelay: '300ms' }}>
+                  <p className="text-sm font-bold text-foreground mb-4 uppercase tracking-wide">Organizations on OpenRole:</p>
+                  <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6">
+                    {organizations.slice(0, 4).map((org, index) => (
+                      <div
+                        key={org.id}
+                        className="text-foreground font-bold text-sm hover:text-primary transition-colors border-b-2 border-transparent hover:border-primary cursor-pointer animate-fade-in"
+                        style={{ animationDelay: `${400 + index * 50}ms` }}
+                      >
+                        {org.organization_name}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             {/* Right Content - Phone Mockup */}
@@ -204,23 +170,29 @@ export default function Index() {
             </div>
           </div>
 
-          {/* Stats */}
+          {/* Stats - Real Data */}
           <div
             id="stats-section"
             className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto mt-20 px-4"
           >
-            {stats.map((stat, index) => (
-              <div
-                key={index}
-                className="text-center p-6 bg-background border-2 border-border shadow-md hover:shadow-lg hover:translate-x-1 hover:translate-y-1 transition-all duration-200 animate-fade-in"
-                style={{ animationDelay: `${600 + index * 100}ms` }}
-              >
-                <div className="text-4xl font-bold text-primary mb-1">
-                  <AnimatedCounter end={stat.value} suffix={stat.suffix} />
-                </div>
-                <div className="text-sm font-bold text-foreground uppercase tracking-wide">{stat.label}</div>
+            <div className="text-center p-6 bg-background border-2 border-border shadow-md hover:shadow-lg hover:translate-x-1 hover:translate-y-1 transition-all duration-200 animate-fade-in" style={{ animationDelay: '600ms' }}>
+              <div className="text-4xl font-bold text-primary mb-1">
+                {stats.isLoading ? '...' : stats.activeInternships}
               </div>
-            ))}
+              <div className="text-sm font-bold text-foreground uppercase tracking-wide">Active Internships</div>
+            </div>
+            <div className="text-center p-6 bg-background border-2 border-border shadow-md hover:shadow-lg hover:translate-x-1 hover:translate-y-1 transition-all duration-200 animate-fade-in" style={{ animationDelay: '700ms' }}>
+              <div className="text-4xl font-bold text-primary mb-1">
+                {stats.isLoading ? '...' : stats.registeredStudents}
+              </div>
+              <div className="text-sm font-bold text-foreground uppercase tracking-wide">Registered Students</div>
+            </div>
+            <div className="text-center p-6 bg-background border-2 border-border shadow-md hover:shadow-lg hover:translate-x-1 hover:translate-y-1 transition-all duration-200 animate-fade-in" style={{ animationDelay: '800ms' }}>
+              <div className="text-4xl font-bold text-primary mb-1">
+                {stats.isLoading ? '...' : stats.registeredOrganizations}
+              </div>
+              <div className="text-sm font-bold text-foreground uppercase tracking-wide">Organizations</div>
+            </div>
           </div>
         </div>
       </section>
@@ -262,34 +234,58 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-24 bg-secondary" ref={testimonialsRef}>
-        <div className="page-container">
-          <div className={`text-center mb-16 transition-all duration-700 ${testimonialsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Loved by Students</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-              Join thousands of students who have successfully landed their dream internships through OpenRole.
-            </p>
+      {/* Featured Internships Section */}
+      {featuredInternships.length > 0 && (
+        <section className="py-24 bg-secondary" ref={featuredRef}>
+          <div className="page-container">
+            <div className={`text-center mb-16 transition-all duration-700 ${featuredVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Featured Internships</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+                Explore some of the latest opportunities from organizations on OpenRole.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {featuredInternships.map((internship, index) => (
+                <Link
+                  to={`/internships/${internship.id}`}
+                  key={internship.id}
+                  className={`bg-background border-2 border-border p-6 shadow-md hover:shadow-lg hover:translate-x-1 hover:translate-y-1 transition-all duration-700 group ${featuredVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                  style={{ transitionDelay: `${index * 150}ms` }}
+                >
+                  <p className="text-sm text-muted-foreground mb-1">{internship.organization_name}</p>
+                  <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors mb-3">{internship.title}</h3>
+                  <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground mb-4">
+                    {internship.location && (
+                      <span className="flex items-center gap-1">
+                        <MapPin className="w-3.5 h-3.5" />
+                        {internship.location}
+                      </span>
+                    )}
+                    {internship.is_paid && (
+                      <span className="flex items-center gap-1 text-green-600">
+                        <DollarSign className="w-3.5 h-3.5" />
+                        Paid
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex gap-2">
+                    <Badge variant="secondary" className="text-xs">{internship.field}</Badge>
+                    <Badge variant="outline" className="text-xs">{workTypeLabels[internship.work_type]}</Badge>
+                  </div>
+                </Link>
+              ))}
+            </div>
+            <div className="text-center mt-10">
+              <Link to="/internships">
+                <Button variant="outline" size="lg" className="gap-2 border-2 border-border">
+                  View All Internships
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
+            </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((testimonial, index) => (
-              <div
-                key={index}
-                className={`bg-background border-2 border-border p-8 shadow-md hover:shadow-lg hover:translate-x-1 hover:translate-y-1 transition-all duration-700 ${testimonialsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                  }`}
-                style={{ transitionDelay: `${index * 150}ms` }}
-              >
-                <Quote className="w-10 h-10 text-primary mb-4" />
-                <p className="text-foreground mb-6 font-medium leading-relaxed">"{testimonial.quote}"</p>
-                <div className="pt-4 border-t-2 border-border">
-                  <div className="font-bold text-foreground">{testimonial.name}</div>
-                  <div className="text-sm text-muted-foreground font-bold">{testimonial.company}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Features Section */}
       <section className="py-24 bg-background" ref={featuresRef}>
