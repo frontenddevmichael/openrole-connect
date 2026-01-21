@@ -249,8 +249,7 @@ export default function Index() {
                 <Link
                   to={`/internships/${internship.id}`}
                   key={internship.id}
-                  className={`bg-background border-2 border-border p-6 shadow-md hover:shadow-lg hover:translate-x-1 hover:translate-y-1 transition-all duration-700 group ${featuredVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-                  style={{ transitionDelay: `${index * 150}ms` }}
+                  className="bg-background border-2 border-border p-6 shadow-md hover:shadow-lg hover:translate-x-1 hover:translate-y-1 transition-all duration-300 group"
                 >
                   <p className="text-sm text-muted-foreground mb-1">{internship.organization_name}</p>
                   <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors mb-3">{internship.title}</h3>
