@@ -7,7 +7,6 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import { z } from 'zod';
-import { AuthIllustration } from '@/components/svg/AuthIllustration';
 
 const loginSchema = z.object({
   username: z.string().min(1, 'Username is required'),
@@ -20,8 +19,8 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<{ username?: string; password?: string }>({});
-
-  const { signIn, profile } = useAuth();
+  
+  const { signIn, profile, isAdmin } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -29,6 +28,7 @@ export default function Login() {
     e.preventDefault();
     setErrors({});
 
+    // Validate input
     const result = loginSchema.safeParse({ username, password });
     if (!result.success) {
       const fieldErrors: { username?: string; password?: string } = {};
@@ -42,7 +42,7 @@ export default function Login() {
     }
 
     setIsLoading(true);
-
+    
     const { error, isAdmin: loginIsAdmin } = await signIn(username, password);
 
     if (error) {
@@ -60,63 +60,60 @@ export default function Login() {
       description: 'You have been logged in successfully.',
     });
 
+    // Redirect based on role
     if (loginIsAdmin) {
       navigate('/admin-dashboard');
     } else {
-      setTimeout(() => { setIsLoading(false); }, 500);
+      // Wait a moment for profile to load
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
     }
   };
 
+  // Redirect after profile loads
   if (profile) {
-    const dashboardPath = profile.role === 'organization'
-      ? '/organization-dashboard'
+    const dashboardPath = profile.role === 'organization' 
+      ? '/organization-dashboard' 
       : '/student-dashboard';
     navigate(dashboardPath);
   }
 
   return (
-    <div className="min-h-screen flex">
-      {/* Left — Illustration */}
-      <div className="hidden lg:flex lg:w-[45%] bg-foreground relative items-center justify-center p-12">
-        <AuthIllustration className="w-full max-w-md opacity-80" />
-        <div className="absolute bottom-12 left-12 right-12">
-          <p className="text-background/40 text-sm font-display">
-            "OpenRole connected me with an internship that changed my career trajectory."
-          </p>
-          <p className="text-background/25 text-xs mt-2">— Student on OpenRole</p>
-        </div>
-      </div>
-
-      {/* Right — Form */}
-      <div className="flex-1 flex items-center justify-center px-6 py-12 bg-background">
-        <div className="w-full max-w-sm">
-          <Link to="/" className="inline-flex items-center gap-2 mb-10">
-            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-sm font-display">O</span>
+    <div className="min-h-screen flex items-center justify-center bg-surface-sunken px-4">
+      <div className="w-full max-w-md">
+        {/* Logo */}
+        <div className="text-center mb-8">
+          <Link to="/" className="inline-flex items-center gap-2 mb-4">
+            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
+              <span className="text-primary-foreground font-bold">O</span>
             </div>
-            <span className="font-display font-semibold text-foreground">OpenRole</span>
           </Link>
+          <h1 className="text-2xl font-semibold">Welcome back</h1>
+          <p className="text-muted-foreground mt-2">Sign in to your account</p>
+        </div>
 
-          <h1 className="font-display text-2xl font-bold mb-2">Welcome back</h1>
-          <p className="text-muted-foreground text-sm mb-8">Sign in to your account</p>
-
-          <form onSubmit={handleSubmit} className="space-y-5">
+        {/* Form */}
+        <div className="card-elevated p-8 animate-slide-up">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="username" className="text-sm font-medium">Username</Label>
+              <Label htmlFor="username">Username</Label>
               <Input
                 id="username"
                 type="text"
                 placeholder="Enter your username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className={`rounded-lg h-11 ${errors.username ? 'border-destructive' : ''}`}
+                className={errors.username ? 'border-destructive' : ''}
                 disabled={isLoading}
               />
-              {errors.username && <p className="text-sm text-destructive">{errors.username}</p>}
+              {errors.username && (
+                <p className="text-sm text-destructive">{errors.username}</p>
+              )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-sm font-medium">Password</Label>
+              <Label htmlFor="password">Password</Label>
               <div className="relative">
                 <Input
                   id="password"
@@ -124,7 +121,7 @@ export default function Login() {
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className={`rounded-lg h-11 pr-10 ${errors.password ? 'border-destructive' : ''}`}
+                  className={errors.password ? 'border-destructive pr-10' : 'pr-10'}
                   disabled={isLoading}
                 />
                 <button
@@ -135,10 +132,12 @@ export default function Login() {
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
-              {errors.password && <p className="text-sm text-destructive">{errors.password}</p>}
+              {errors.password && (
+                <p className="text-sm text-destructive">{errors.password}</p>
+              )}
             </div>
 
-            <Button type="submit" className="w-full h-11 rounded-lg" disabled={isLoading}>
+            <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -150,12 +149,12 @@ export default function Login() {
             </Button>
           </form>
 
-          <p className="mt-8 text-center text-sm text-muted-foreground">
-            Don't have an account?{' '}
+          <div className="mt-6 text-center text-sm">
+            <span className="text-muted-foreground">Don't have an account? </span>
             <Link to="/signup" className="text-primary font-medium hover:underline">
               Sign up
             </Link>
-          </p>
+          </div>
         </div>
       </div>
     </div>

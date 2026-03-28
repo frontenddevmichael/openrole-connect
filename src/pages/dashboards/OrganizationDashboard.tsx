@@ -4,8 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/lib/auth';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Button } from '@/components/ui/button';
-import { Briefcase, Users, PlusCircle, ArrowRight } from 'lucide-react';
-import { StatPattern } from '@/components/svg/DashboardVisuals';
+import { Briefcase, Users, PlusCircle } from 'lucide-react';
 
 export default function OrganizationDashboard() {
   const { user, profile, isLoading } = useAuth();
@@ -31,43 +30,24 @@ export default function OrganizationDashboard() {
     <DashboardLayout>
       <div className="space-y-8">
         <div>
-          <h1 className="font-display text-2xl font-bold mb-1">
-            Welcome, {profile?.organization_name || profile?.username}
-          </h1>
-          <p className="text-muted-foreground text-sm">Manage your internship listings</p>
+          <h1 className="text-2xl font-semibold mb-2">Welcome, {profile?.organization_name || profile?.username}!</h1>
+          <p className="text-muted-foreground">Manage your internship listings</p>
         </div>
-
         <div className="grid sm:grid-cols-3 gap-4">
-          <div className="relative overflow-hidden bg-card rounded-xl border border-border/60 p-6 hover:shadow-elevated transition-all duration-300">
-            <StatPattern className="absolute -top-4 -right-4 w-32 h-24 text-foreground" variant="blue" />
-            <div className="relative">
-              <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center mb-4">
-                <Briefcase className="w-5 h-5 text-primary" />
-              </div>
-              <span className="text-3xl font-display font-bold block">{stats.internships}</span>
-              <p className="text-sm text-muted-foreground mt-1">Active Listings</p>
-            </div>
+          <div className="card-elevated p-6">
+            <Briefcase className="w-5 h-5 text-primary mb-3" />
+            <span className="text-2xl font-bold">{stats.internships}</span>
+            <p className="text-sm text-muted-foreground">Active Listings</p>
           </div>
-
-          <div className="relative overflow-hidden bg-card rounded-xl border border-border/60 p-6 hover:shadow-elevated transition-all duration-300">
-            <StatPattern className="absolute -top-4 -right-4 w-32 h-24 text-foreground" variant="green" />
-            <div className="relative">
-              <div className="w-10 h-10 rounded-xl bg-success/8 flex items-center justify-center mb-4">
-                <Users className="w-5 h-5 text-success" />
-              </div>
-              <span className="text-3xl font-display font-bold block">{stats.applicants}</span>
-              <p className="text-sm text-muted-foreground mt-1">Total Applicants</p>
-            </div>
+          <div className="card-elevated p-6">
+            <Users className="w-5 h-5 text-success mb-3" />
+            <span className="text-2xl font-bold">{stats.applicants}</span>
+            <p className="text-sm text-muted-foreground">Total Applicants</p>
           </div>
-
-          <div className="bg-card rounded-xl border border-border/60 p-6 flex flex-col justify-between">
-            <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center mb-4">
-              <PlusCircle className="w-5 h-5 text-muted-foreground" />
-            </div>
+          <div className="card-elevated p-6 flex flex-col justify-between">
+            <PlusCircle className="w-5 h-5 text-muted-foreground mb-3" />
             <Link to="/organization-dashboard/post">
-              <Button className="w-full rounded-lg gap-2">
-                Post New Internship <ArrowRight className="w-4 h-4" />
-              </Button>
+              <Button className="w-full">Post New Internship</Button>
             </Link>
           </div>
         </div>
