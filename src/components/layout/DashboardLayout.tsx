@@ -3,12 +3,12 @@ import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/lib/auth';
 import { Header } from './Header';
-import { 
-  LayoutDashboard, 
-  User, 
-  Bookmark, 
-  FileText, 
-  PlusCircle, 
+import {
+  LayoutDashboard,
+  User,
+  Bookmark,
+  FileText,
+  PlusCircle,
   Users,
   Shield
 } from 'lucide-react';
@@ -54,8 +54,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       <div className="page-container py-8">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar */}
-          <aside className="w-full lg:w-64 flex-shrink-0">
-            <nav className="card-elevated p-2 space-y-1">
+          <aside className="w-full lg:w-60 flex-shrink-0">
+            <nav className="bg-card rounded-xl border border-border/60 p-2 space-y-0.5">
               {navItems.map((item) => {
                 const isActive = location.pathname === item.href;
                 return (
@@ -63,10 +63,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                     key={item.href}
                     to={item.href}
                     className={cn(
-                      'flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200',
-                      isActive 
-                        ? 'bg-primary text-primary-foreground' 
-                        : 'text-muted-foreground hover:bg-hover-overlay hover:text-foreground'
+                      'flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200',
+                      isActive
+                        ? 'bg-primary text-primary-foreground shadow-sm'
+                        : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
                     )}
                   >
                     {item.icon}
