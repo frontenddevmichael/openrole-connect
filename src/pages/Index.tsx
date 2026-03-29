@@ -14,7 +14,7 @@ function useScrollReveal() {
     const el = ref.current;
     if (!el) return;
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
+      ([entry]) => {if (entry.isIntersecting) setVisible(true);},
       { threshold: 0.15 }
     );
     observer.observe(el);
@@ -24,31 +24,31 @@ function useScrollReveal() {
   return { ref, visible };
 }
 
-function RevealChildren({ children, className }: { children: React.ReactNode; className?: string }) {
+function RevealChildren({ children, className }: {children: React.ReactNode;className?: string;}) {
   const { ref, visible } = useScrollReveal();
   return (
     <div ref={ref} className={className}>
-      {Array.isArray(children)
-        ? children.map((child, i) => (
-            <div
-              key={i}
-              style={{
-                opacity: visible ? 1 : 0,
-                transform: visible ? 'translateY(0)' : 'translateY(16px)',
-                transition: `opacity 420ms cubic-bezier(0.25, 0.46, 0.45, 0.94) ${i * 70}ms, transform 420ms cubic-bezier(0.25, 0.46, 0.45, 0.94) ${i * 70}ms`,
-              }}
-            >
+      {Array.isArray(children) ?
+      children.map((child, i) =>
+      <div
+        key={i}
+        style={{
+          opacity: visible ? 1 : 0,
+          transform: visible ? 'translateY(0)' : 'translateY(16px)',
+          transition: `opacity 420ms cubic-bezier(0.25, 0.46, 0.45, 0.94) ${i * 70}ms, transform 420ms cubic-bezier(0.25, 0.46, 0.45, 0.94) ${i * 70}ms`
+        }}>
+        
               {child}
             </div>
-          ))
-        : <div style={{
-            opacity: visible ? 1 : 0,
-            transform: visible ? 'translateY(0)' : 'translateY(16px)',
-            transition: 'opacity 420ms cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 420ms cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-          }}>{children}</div>
+      ) :
+      <div style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(16px)',
+        transition: 'opacity 420ms cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 420ms cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+      }}>{children}</div>
       }
-    </div>
-  );
+    </div>);
+
 }
 
 export default function Index() {
@@ -68,9 +68,9 @@ export default function Index() {
       <section className="relative page-container pt-20 pb-32 md:pt-32 md:pb-40">
         {/* Vertical rule motif */}
         <div
-          className="absolute left-20 top-0 bottom-0 w-px hidden md:block"
-          style={{ backgroundColor: 'rgba(26, 24, 20, 0.12)' }}
-        />
+          className="absolute left-20 top-0 bottom-0 w-px hidden md:block bg-black/0"
+          style={{ backgroundColor: 'rgba(26, 24, 20, 0.12)' }} />
+        
 
         <div className="max-w-2xl relative">
           <p className="section-eyebrow mb-6">Career Discovery</p>
@@ -80,9 +80,9 @@ export default function Index() {
               opacity: heroVisible ? 1 : 0,
               transition: 'opacity 500ms ease',
               fontWeight: 400,
-              letterSpacing: '-0.02em',
-            }}
-          >
+              letterSpacing: '-0.02em'
+            }}>
+            
             Not every career path<br />
             starts with certainty.
           </h1>
@@ -134,8 +134,8 @@ export default function Index() {
       </section>
 
       {/* ─── FEATURED ROLES ─── */}
-      {featuredInternships.length > 0 && (
-        <section className="page-container py-20 md:py-32 border-t border-border">
+      {featuredInternships.length > 0 &&
+      <section className="page-container py-20 md:py-32 border-t border-border">
           <RevealChildren>
             <div className="flex items-end justify-between mb-10">
               <div>
@@ -149,13 +149,13 @@ export default function Index() {
           </RevealChildren>
 
           <RevealChildren className="grid md:grid-cols-3 gap-6">
-            {featuredInternships.map((internship) => (
-              <Link
-                key={internship.id}
-                to={`/internships/${internship.id}`}
-                className="card-interactive p-6 flex flex-col justify-between"
-                style={{ aspectRatio: '4/3' }}
-              >
+            {featuredInternships.map((internship) =>
+          <Link
+            key={internship.id}
+            to={`/internships/${internship.id}`}
+            className="card-interactive p-6 flex flex-col justify-between"
+            style={{ aspectRatio: '4/3' }}>
+            
                 <div>
                   <p className="section-eyebrow mb-3">{internship.organization_name}</p>
                   <h3 className="font-serif text-lg text-foreground mb-2">{internship.title}</h3>
@@ -164,18 +164,18 @@ export default function Index() {
                   </p>
                 </div>
                 <div className="flex items-center gap-2 mt-4">
-                  {internship.is_paid && (
-                    <span className="text-xs text-muted-foreground font-sans border border-border rounded px-2 py-0.5">Paid</span>
-                  )}
+                  {internship.is_paid &&
+              <span className="text-xs text-muted-foreground font-sans border border-border rounded px-2 py-0.5">Paid</span>
+              }
                   <span className="text-xs text-muted-foreground font-sans border border-border rounded px-2 py-0.5">
                     {internship.work_type === 'remote' ? 'Remote' : internship.work_type === 'hybrid' ? 'Hybrid' : 'On-site'}
                   </span>
                 </div>
               </Link>
-            ))}
+          )}
           </RevealChildren>
         </section>
-      )}
+      }
 
       {/* ─── FOR ORGANIZATIONS ─── */}
       <section className="page-container py-20 md:py-32 border-t border-border">
@@ -199,20 +199,20 @@ export default function Index() {
       </section>
 
       {/* ─── ORGANIZATIONS ─── */}
-      {organizations.length > 0 && (
-        <section className="page-container py-16 border-t border-border">
+      {organizations.length > 0 &&
+      <section className="page-container py-16 border-t border-border">
           <p className="section-eyebrow mb-6">Organizations on OpenRole</p>
           <div className="flex flex-wrap gap-x-8 gap-y-2">
-            {organizations.map((org) => (
-              <span key={org.id} className="text-sm text-muted-foreground font-sans">
+            {organizations.map((org) =>
+          <span key={org.id} className="text-sm text-muted-foreground font-sans">
                 {org.organization_name}
               </span>
-            ))}
+          )}
           </div>
         </section>
-      )}
+      }
 
       <Footer />
-    </div>
-  );
+    </div>);
+
 }
