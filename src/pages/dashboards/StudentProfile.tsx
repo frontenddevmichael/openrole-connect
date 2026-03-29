@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Upload } from 'lucide-react';
+import { SpinnerIcon } from '@/components/icons';
 
 export default function StudentProfile() {
   const { user, profile, isLoading, refreshProfile } = useAuth();
@@ -23,74 +23,58 @@ export default function StudentProfile() {
 
   const handleSave = async () => {
     setIsSaving(true);
-    const { error } = await supabase.from('profiles').update({
-      full_name: fullName,
-      field,
-      skills: skills.split(',').map(s => s.trim()).filter(Boolean),
-    }).eq('id', user.id);
-
-    if (error) {
-      toast({ title: 'Error', description: 'Failed to update profile', variant: 'destructive' });
-    } else {
-      toast({ description: 'Profile updated successfully' });
-      refreshProfile();
-    }
+    const { error } = await supabase.from('profiles').update({ full_name: fullName, field, skills: skills.split(',').map(s => s.trim()).filter(Boolean) }).eq('id', user.id);
+    if (error) { toast({ title: 'Error', description: 'Failed to update.', variant: 'destructive' }); }
+    else { toast({ description: 'Updated.' }); refreshProfile(); }
     setIsSaving(false);
   };
 
   const handleCvUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.type !== 'application/pdf') {
-      toast({ title: 'Error', description: 'Please upload a PDF file', variant: 'destructive' });
-      return;
-    }
-
+    if (file.type !== 'application/pdf') { toast({ title: 'Error', description: 'PDF only.', variant: 'destructive' }); return; }
     setIsUploading(true);
     const filePath = `${user.id}/${Date.now()}.pdf`;
     const { error: uploadError } = await supabase.storage.from('cvs').upload(filePath, file);
-
-    if (uploadError) {
-      toast({ title: 'Error', description: 'Failed to upload CV', variant: 'destructive' });
-    } else {
+    if (uploadError) { toast({ title: 'Error', description: 'Upload failed.', variant: 'destructive' }); }
+    else {
       const { data: { publicUrl } } = supabase.storage.from('cvs').getPublicUrl(filePath);
       await supabase.from('profiles').update({ cv_url: publicUrl }).eq('id', user.id);
-      toast({ description: 'CV uploaded successfully' });
-      refreshProfile();
+      toast({ description: 'CV uploaded.' }); refreshProfile();
     }
     setIsUploading(false);
   };
 
   return (
     <DashboardLayout>
-      <div className="max-w-2xl">
-        <h1 className="text-2xl font-semibold mb-6">Profile Settings</h1>
-        <div className="card-elevated p-6 space-y-6">
-          <div className="space-y-2">
-            <Label>Full Name</Label>
-            <Input value={fullName} onChange={e => setFullName(e.target.value)} placeholder="Your full name" />
+      <div className="max-w-lg">
+        <h1 className="font-serif text-2xl text-foreground mb-8">Profile</h1>
+        <div className="space-y-5">
+          <div className="space-y-1.5">
+            <Label className="text-sm font-sans font-medium text-foreground">Full name</Label>
+            <Input value={fullName} onChange={e => setFullName(e.target.value)} placeholder="Your name" className="rounded-md h-10 font-sans text-sm border-border bg-background" />
           </div>
-          <div className="space-y-2">
-            <Label>Field of Interest</Label>
-            <Input value={field} onChange={e => setField(e.target.value)} placeholder="e.g., Technology, Marketing" />
+          <div className="space-y-1.5">
+            <Label className="text-sm font-sans font-medium text-foreground">Field of interest</Label>
+            <Input value={field} onChange={e => setField(e.target.value)} placeholder="e.g. Technology" className="rounded-md h-10 font-sans text-sm border-border bg-background" />
           </div>
-          <div className="space-y-2">
-            <Label>Skills (comma-separated)</Label>
-            <Input value={skills} onChange={e => setSkills(e.target.value)} placeholder="React, Python, Design" />
+          <div className="space-y-1.5">
+            <Label className="text-sm font-sans font-medium text-foreground">Skills (comma-separated)</Label>
+            <Input value={skills} onChange={e => setSkills(e.target.value)} placeholder="React, Python, Design" className="rounded-md h-10 font-sans text-sm border-border bg-background" />
           </div>
-          <div className="space-y-2">
-            <Label>CV (PDF)</Label>
+          <div className="space-y-1.5">
+            <Label className="text-sm font-sans font-medium text-foreground">CV (PDF)</Label>
             <div className="flex items-center gap-4">
-              <Input type="file" accept=".pdf" onChange={handleCvUpload} disabled={isUploading} />
+              <Input type="file" accept=".pdf" onChange={handleCvUpload} disabled={isUploading} className="rounded-md font-sans text-sm border-border bg-background" />
               {profile?.cv_url && (
-                <a href={profile.cv_url} target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline">
-                  View Current CV
+                <a href={profile.cv_url} target="_blank" rel="noopener noreferrer" className="text-xs text-primary hover:underline font-sans whitespace-nowrap">
+                  View CV
                 </a>
               )}
             </div>
           </div>
-          <Button onClick={handleSave} disabled={isSaving}>
-            {isSaving ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Saving...</> : 'Save Changes'}
+          <Button onClick={handleSave} disabled={isSaving} className="font-sans text-sm rounded-md bg-primary text-primary-foreground hover:opacity-92">
+            {isSaving ? <><SpinnerIcon size={16} className="mr-2" /> Saving…</> : 'Save'}
           </Button>
         </div>
       </div>
