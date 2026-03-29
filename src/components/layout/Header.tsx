@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { User, LogOut, Settings, Briefcase, BookmarkIcon, Menu, X } from 'lucide-react';
+import { PersonIcon, LogOutIcon, SettingsIcon, CompassIcon, BookmarkIcon, MenuIcon, CloseIcon } from '@/components/icons';
 
 export function Header() {
   const { user, profile, isAdmin, signOut } = useAuth();
@@ -38,54 +38,47 @@ export function Header() {
     <header
       className={`sticky top-0 z-50 w-full transition-all duration-300 ${
         scrolled
-          ? 'bg-background/80 backdrop-blur-xl border-b border-border/50 shadow-soft'
+          ? 'bg-background/90 backdrop-blur-md border-b border-border'
           : 'bg-transparent'
       }`}
     >
       <div className="page-container">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-14">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5 group flex-shrink-0">
-            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center transition-transform group-hover:scale-105">
-              <span className="text-primary-foreground font-bold text-sm font-display">O</span>
-            </div>
-            <span className="font-display font-semibold text-lg text-foreground">
-              OpenRole
-            </span>
+          <Link to="/" className="font-serif text-lg tracking-tight text-foreground">
+            OpenRole
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-8">
             <Link
               to="/internships"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-lg hover:bg-secondary"
+              className="text-sm font-sans text-muted-foreground hover:text-foreground transition-colors"
             >
               Browse
             </Link>
             {profile?.role === 'organization' && (
               <Link
                 to="/organization-dashboard/post"
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-lg hover:bg-secondary"
+                className="text-sm font-sans text-muted-foreground hover:text-foreground transition-colors"
               >
-                Post Internship
+                Post
               </Link>
             )}
           </nav>
 
           {/* Right Section */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             {user || isAdmin ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-9 w-9 rounded-full p-0">
-                    <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center transition-colors hover:bg-primary/15">
-                      <User className="w-4 h-4 text-primary" />
-                    </div>
-                  </Button>
+                  <button className="w-8 h-8 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors">
+                    <PersonIcon size={16} />
+                  </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56 rounded-xl shadow-elevated border-border/60">
+                <DropdownMenuContent align="end" className="w-52 rounded-lg border border-border bg-background">
                   <div className="px-3 py-2.5">
-                    <p className="text-sm font-medium truncate">
+                    <p className="text-sm font-sans font-medium truncate text-foreground">
                       {isAdmin ? 'Admin' : profile?.full_name || profile?.username}
                     </p>
                     <p className="text-xs text-muted-foreground truncate">
@@ -93,77 +86,75 @@ export function Header() {
                     </p>
                   </div>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => navigate(getDashboardPath())} className="cursor-pointer">
-                    <Briefcase className="mr-2 h-4 w-4" />
+                  <DropdownMenuItem onClick={() => navigate(getDashboardPath())} className="cursor-pointer text-sm font-sans">
+                    <CompassIcon size={16} className="mr-2" />
                     Dashboard
                   </DropdownMenuItem>
                   {profile?.role === 'student' && (
-                    <DropdownMenuItem onClick={() => navigate('/student-dashboard/saved')} className="cursor-pointer">
-                      <BookmarkIcon className="mr-2 h-4 w-4" />
-                      Saved Internships
+                    <DropdownMenuItem onClick={() => navigate('/student-dashboard/saved')} className="cursor-pointer text-sm font-sans">
+                      <BookmarkIcon size={16} className="mr-2" />
+                      Saved
                     </DropdownMenuItem>
                   )}
                   {!isAdmin && (
-                    <DropdownMenuItem onClick={() => navigate(`${getDashboardPath()}/profile`)} className="cursor-pointer">
-                      <Settings className="mr-2 h-4 w-4" />
-                      Profile Settings
+                    <DropdownMenuItem onClick={() => navigate(`${getDashboardPath()}/profile`)} className="cursor-pointer text-sm font-sans">
+                      <SettingsIcon size={16} className="mr-2" />
+                      Settings
                     </DropdownMenuItem>
                   )}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
                     onClick={handleSignOut}
-                    className="text-destructive focus:text-destructive cursor-pointer"
+                    className="text-destructive focus:text-destructive cursor-pointer text-sm font-sans"
                   >
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Sign Out
+                    <LogOutIcon size={16} className="mr-2" />
+                    Sign out
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
               <>
                 <Link to="/login">
-                  <Button variant="ghost" size="sm" className="font-medium text-muted-foreground hover:text-foreground">
-                    Sign In
+                  <Button variant="ghost" size="sm" className="font-sans text-sm text-muted-foreground hover:text-foreground">
+                    Sign in
                   </Button>
                 </Link>
                 <Link to="/signup">
-                  <Button size="sm" className="font-medium rounded-lg shadow-sm">
-                    Get Started
+                  <Button size="sm" className="font-sans text-sm rounded-md bg-primary text-primary-foreground hover:opacity-92">
+                    Join
                   </Button>
                 </Link>
               </>
             )}
 
             {/* Mobile menu toggle */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden"
+            <button
+              className="md:hidden p-1 text-muted-foreground hover:text-foreground"
               onClick={() => setMobileOpen(!mobileOpen)}
             >
-              {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </Button>
+              {mobileOpen ? <CloseIcon size={20} /> : <MenuIcon size={20} />}
+            </button>
           </div>
         </div>
 
         {/* Mobile Nav */}
         {mobileOpen && (
-          <div className="md:hidden pb-4 animate-slide-up">
+          <div className="md:hidden pb-6 pt-2">
             <nav className="flex flex-col gap-1">
               <Link
                 to="/internships"
                 onClick={() => setMobileOpen(false)}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground px-3 py-2.5 rounded-lg hover:bg-secondary transition-colors"
+                className="text-sm font-sans text-muted-foreground hover:text-foreground py-2 transition-colors"
               >
-                Browse Internships
+                Browse
               </Link>
               {profile?.role === 'organization' && (
                 <Link
                   to="/organization-dashboard/post"
                   onClick={() => setMobileOpen(false)}
-                  className="text-sm font-medium text-muted-foreground hover:text-foreground px-3 py-2.5 rounded-lg hover:bg-secondary transition-colors"
+                  className="text-sm font-sans text-muted-foreground hover:text-foreground py-2 transition-colors"
                 >
-                  Post Internship
+                  Post
                 </Link>
               )}
             </nav>

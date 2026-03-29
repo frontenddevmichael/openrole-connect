@@ -2,67 +2,58 @@ import { Link } from 'react-router-dom';
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-surface-sunken">
-      <div className="page-container py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="border-t border-border">
+      <div className="page-container py-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Brand */}
-          <div className="col-span-1 md:col-span-2">
-            <Link to="/" className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-sm">O</span>
-              </div>
-              <span className="font-semibold text-lg">OpenRole</span>
+          <div>
+            <Link to="/" className="font-serif text-lg text-foreground">
+              OpenRole
             </Link>
-            <p className="text-muted-foreground text-sm max-w-sm">
-              Connecting ambitious students with meaningful internship opportunities. 
-              Build your career with the right experience.
+            <p className="text-sm text-muted-foreground mt-4 leading-relaxed max-w-xs">
+              A quieter way to find the work that fits. For students still figuring it out — and organizations looking for fresh perspectives.
             </p>
           </div>
 
-          {/* For Students */}
+          {/* Students */}
           <div>
-            <h4 className="font-medium mb-4 text-sm">For Students</h4>
-            <ul className="space-y-2">
+            <p className="section-eyebrow mb-4">For Students</p>
+            <ul className="space-y-2.5">
               <li>
                 <Link to="/internships" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Browse Internships
+                  Browse roles
                 </Link>
               </li>
               <li>
                 <Link to="/signup" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Create Account
+                  Create account
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* For Organizations */}
+          {/* Organizations */}
           <div>
-            <h4 className="font-medium mb-4 text-sm">For Organizations</h4>
-            <ul className="space-y-2">
+            <p className="section-eyebrow mb-4">For Organizations</p>
+            <ul className="space-y-2.5">
               <li>
                 <Link to="/signup" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Post Internships
+                  Post roles
                 </Link>
               </li>
               <li>
                 <Link to="/login" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Manage Listings
+                  Manage listings
                 </Link>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} OpenRole. All rights reserved.
+        <div className="mt-16 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <p className="text-xs text-muted-foreground">
+            © {new Date().getFullYear()} OpenRole
           </p>
-          <div className="flex items-center gap-6">
-            <span className="text-sm text-muted-foreground">
-              Built with care for students everywhere
-            </span>
-          </div>
         </div>
       </div>
     </footer>

@@ -1,8 +1,5 @@
 import { Link } from 'react-router-dom';
-import { MapPin, Clock, DollarSign, Bookmark, BookmarkCheck } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
+import { PinIcon, ClockIcon, CurrencyIcon, BookmarkIcon } from '@/components/icons';
 
 interface InternshipCardProps {
   id: string;
@@ -18,10 +15,10 @@ interface InternshipCardProps {
   showSaveButton?: boolean;
 }
 
-const workTypeConfig = {
-  remote: { label: 'Remote', className: 'bg-primary/8 text-primary border-primary/15' },
-  onsite: { label: 'On-site', className: '' },
-  hybrid: { label: 'Hybrid', className: 'bg-accent text-accent-foreground' },
+const workTypeLabels = {
+  remote: 'Remote',
+  onsite: 'On-site',
+  hybrid: 'Hybrid',
 };
 
 export function InternshipCard({
@@ -37,24 +34,20 @@ export function InternshipCard({
   onToggleSave,
   showSaveButton = true,
 }: InternshipCardProps) {
-  const wt = workTypeConfig[workType];
-
   return (
-    <div className="group relative bg-card rounded-xl border border-border/60 p-6 transition-all duration-300 hover:shadow-elevated hover:border-primary/20 hover:-translate-y-0.5">
+    <div className="card-interactive p-6 md:p-8">
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
           {/* Org + Field */}
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-              {organizationName}
-            </span>
-            <span className="w-1 h-1 rounded-full bg-border" />
-            <span className="text-xs text-muted-foreground">{field}</span>
+            <span className="section-eyebrow">{organizationName}</span>
+            <span className="text-muted-foreground text-xs">·</span>
+            <span className="text-xs text-muted-foreground font-sans">{field}</span>
           </div>
 
           {/* Title */}
           <Link to={`/internships/${id}`}>
-            <h3 className="font-display font-semibold text-lg text-foreground group-hover:text-primary transition-colors leading-snug">
+            <h3 className="font-serif text-lg text-foreground leading-snug hover:text-primary transition-colors">
               {title}
             </h3>
           </Link>
@@ -62,55 +55,44 @@ export function InternshipCard({
           {/* Meta */}
           <div className="flex flex-wrap items-center gap-4 mt-3">
             {location && (
-              <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                <MapPin className="w-3.5 h-3.5" />
+              <span className="flex items-center gap-1.5 text-sm text-muted-foreground font-sans">
+                <PinIcon size={14} />
                 {location}
               </span>
             )}
             {duration && (
-              <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                <Clock className="w-3.5 h-3.5" />
+              <span className="flex items-center gap-1.5 text-sm text-muted-foreground font-sans">
+                <ClockIcon size={14} />
                 {duration}
               </span>
             )}
             {isPaid && (
-              <span className="flex items-center gap-1.5 text-sm text-success font-medium">
-                <DollarSign className="w-3.5 h-3.5" />
+              <span className="flex items-center gap-1.5 text-sm text-muted-foreground font-sans">
+                <CurrencyIcon size={14} />
                 Paid
               </span>
             )}
-          </div>
-
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2 mt-4">
-            <Badge variant="outline" className={cn("text-xs rounded-full", wt.className)}>
-              {wt.label}
-            </Badge>
+            <span className="text-xs text-muted-foreground font-sans border border-border rounded px-2 py-0.5">
+              {workTypeLabels[workType]}
+            </span>
           </div>
         </div>
 
         {/* Save Button */}
         {showSaveButton && onToggleSave && (
-          <Button
-            variant="ghost"
-            size="icon"
+          <button
             onClick={(e) => {
               e.preventDefault();
               onToggleSave();
             }}
-            className={cn(
-              "flex-shrink-0 rounded-full transition-all",
+            className={`flex-shrink-0 p-2 rounded transition-colors ${
               isSaved
-                ? "text-primary bg-primary/8 hover:bg-primary/15"
-                : "text-muted-foreground hover:text-primary hover:bg-primary/8"
-            )}
+                ? 'text-primary'
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
           >
-            {isSaved ? (
-              <BookmarkCheck className="w-4 h-4" />
-            ) : (
-              <Bookmark className="w-4 h-4" />
-            )}
-          </Button>
+            <BookmarkIcon size={18} filled={isSaved} />
+          </button>
         )}
       </div>
     </div>
