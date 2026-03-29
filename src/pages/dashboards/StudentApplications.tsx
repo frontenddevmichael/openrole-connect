@@ -5,7 +5,7 @@ import { useAuth } from '@/lib/auth';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Badge } from '@/components/ui/badge';
-import { FileText } from 'lucide-react';
+import { DocumentIcon } from '@/components/icons';
 import { format } from 'date-fns';
 
 export default function StudentApplications() {
@@ -23,20 +23,20 @@ export default function StudentApplications() {
 
   return (
     <DashboardLayout>
-      <h1 className="text-2xl font-semibold mb-6">My Applications</h1>
+      <h1 className="font-serif text-2xl text-foreground mb-8">Applications</h1>
       {applications.length === 0 ? (
-        <EmptyState icon={<FileText className="w-8 h-8 text-muted-foreground" />} title="No applications yet" description="Apply to internships to see them here" />
+        <EmptyState icon={<DocumentIcon size={24} className="text-muted-foreground" />} title="No applications" description="Apply to roles to see them here." />
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-3">
           {applications.map(app => (
             <div key={app.id} className="card-elevated p-4 flex items-center justify-between">
               <div>
-                <Link to={`/internships/${app.internship_id}`} className="font-medium hover:text-primary">{app.internships.title}</Link>
-                <p className="text-sm text-muted-foreground">{app.internships.profiles?.organization_name}</p>
+                <Link to={`/internships/${app.internship_id}`} className="text-sm font-sans font-medium text-foreground hover:text-primary transition-colors">{app.internships.title}</Link>
+                <p className="text-xs text-muted-foreground font-sans">{app.internships.profiles?.organization_name}</p>
               </div>
-              <div className="flex items-center gap-4">
-                <Badge variant="secondary">{app.status}</Badge>
-                <span className="text-xs text-muted-foreground">{format(new Date(app.created_at), 'MMM d, yyyy')}</span>
+              <div className="flex items-center gap-3">
+                <Badge variant="secondary" className="text-xs font-sans">{app.status}</Badge>
+                <span className="text-xs text-muted-foreground font-sans">{format(new Date(app.created_at), 'MMM d, yyyy')}</span>
               </div>
             </div>
           ))}

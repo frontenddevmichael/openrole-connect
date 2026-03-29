@@ -1,24 +1,19 @@
 import { ReactNode } from 'react';
-import { cn } from '@/lib/utils';
-import { EmptyStateIllustration } from '@/components/svg/DashboardVisuals';
 
 interface EmptyStateProps {
-  icon?: ReactNode;
+  icon: ReactNode;
   title: string;
-  description?: string;
+  description: string;
   action?: ReactNode;
-  className?: string;
 }
 
-export function EmptyState({ icon, title, description, action, className }: EmptyStateProps) {
+export function EmptyState({ icon, title, description, action }: EmptyStateProps) {
   return (
-    <div className={cn("flex flex-col items-center justify-center py-20 px-4 text-center", className)}>
-      <EmptyStateIllustration className="w-40 h-32 text-foreground mb-6" />
-      <h3 className="font-display font-semibold text-lg mb-2">{title}</h3>
-      {description && (
-        <p className="text-muted-foreground text-sm max-w-sm mb-6">{description}</p>
-      )}
-      {action}
+    <div className="flex flex-col items-center justify-center py-16 text-center">
+      <div className="mb-4">{icon}</div>
+      <h3 className="font-serif text-lg text-foreground mb-1">{title}</h3>
+      <p className="text-sm text-muted-foreground font-sans max-w-sm">{description}</p>
+      {action && <div className="mt-6">{action}</div>}
     </div>
   );
 }

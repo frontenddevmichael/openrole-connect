@@ -9,7 +9,6 @@ import { InternshipCardSkeleton } from '@/components/ui/LoadingSkeleton';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import {
   Select,
   SelectContent,
@@ -17,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-import { Search, X, Briefcase } from 'lucide-react';
+import { SearchIcon, CloseIcon, CompassIcon } from '@/components/icons';
 import { useToast } from '@/hooks/use-toast';
 
 interface Internship {
@@ -54,13 +53,9 @@ export default function Internships() {
 
   const fetchInternships = async () => {
     setIsLoading(true);
-
     let query = supabase
       .from('internships')
-      .select(`
-        id, title, field, location, work_type, duration, is_paid, organization_id,
-        profiles!internships_organization_id_fkey ( organization_name, username )
-      `)
+      .select(`id, title, field, location, work_type, duration, is_paid, organization_id, profiles!internships_organization_id_fkey ( organization_name, username )`)
       .eq('is_active', true)
       .order('created_at', { ascending: false });
 
@@ -113,7 +108,7 @@ export default function Internships() {
       if (!error) { setSavedIds(prev => { const next = new Set(prev); next.delete(internshipId); return next; }); toast({ description: 'Removed from saved' }); }
     } else {
       const { error } = await supabase.from('saved_internships').insert({ internship_id: internshipId, student_id: user.id });
-      if (!error) { setSavedIds(prev => new Set(prev).add(internshipId)); toast({ description: 'Saved to your list' }); }
+      if (!error) { setSavedIds(prev => new Set(prev).add(internshipId)); toast({ description: 'Saved' }); }
     }
   };
 
@@ -123,33 +118,32 @@ export default function Internships() {
     <div className="min-h-screen flex flex-col bg-background">
       <Header />
 
-      <main className="flex-1 page-container py-10">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="font-display text-3xl font-bold mb-2">Browse Internships</h1>
-          <p className="text-muted-foreground">
-            Discover opportunities that match your skills and goals
-          </p>
+      <main className="flex-1 page-container py-12 md:py-20">
+        <div className="mb-10">
+          <p className="section-eyebrow mb-3">Browse</p>
+          <h1 className="font-serif text-2xl md:text-3xl text-foreground">Open roles</h1>
         </div>
 
         {/* Filters */}
-        <div className="bg-card rounded-xl border border-border/60 p-5 mb-8 space-y-4">
+        <div className="mb-10 space-y-4">
           <form onSubmit={handleSearch} className="flex gap-3">
             <div className="relative flex-1">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                <SearchIcon size={16} />
+              </div>
               <Input
-                placeholder="Search by title or field..."
+                placeholder="Search by title or field…"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="pl-10 rounded-lg h-11"
+                className="pl-9 rounded-md h-10 border-border bg-background font-sans text-sm"
               />
             </div>
-            <Button type="submit" className="rounded-lg h-11">Search</Button>
+            <Button type="submit" className="rounded-md h-10 font-sans text-sm bg-primary text-primary-foreground">Search</Button>
           </form>
 
           <div className="flex flex-wrap items-center gap-3">
             <Select value={fieldFilter} onValueChange={setFieldFilter}>
-              <SelectTrigger className="w-[160px] rounded-lg h-10">
+              <SelectTrigger className="w-[150px] rounded-md h-9 text-sm font-sans border-border">
                 <SelectValue placeholder="All fields" />
               </SelectTrigger>
               <SelectContent>
@@ -161,7 +155,7 @@ export default function Internships() {
             </Select>
 
             <Select value={workTypeFilter} onValueChange={setWorkTypeFilter}>
-              <SelectTrigger className="w-[140px] rounded-lg h-10">
+              <SelectTrigger className="w-[130px] rounded-md h-9 text-sm font-sans border-border">
                 <SelectValue placeholder="Work type" />
               </SelectTrigger>
               <SelectContent>
@@ -173,35 +167,15 @@ export default function Internships() {
             </Select>
 
             {hasFilters && (
-              <Button variant="ghost" size="sm" onClick={clearFilters} className="gap-1.5 text-muted-foreground">
-                <X className="w-3 h-3" />
-                Clear all
-              </Button>
+              <button
+                onClick={clearFilters}
+                className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground font-sans transition-colors"
+              >
+                <CloseIcon size={12} />
+                Clear
+              </button>
             )}
           </div>
-
-          {hasFilters && (
-            <div className="flex flex-wrap gap-2">
-              {search && (
-                <Badge variant="secondary" className="gap-1.5 rounded-full">
-                  Search: {search}
-                  <button onClick={() => setSearch('')}><X className="w-3 h-3" /></button>
-                </Badge>
-              )}
-              {fieldFilter !== 'all' && (
-                <Badge variant="secondary" className="gap-1.5 rounded-full">
-                  {fieldFilter}
-                  <button onClick={() => setFieldFilter('all')}><X className="w-3 h-3" /></button>
-                </Badge>
-              )}
-              {workTypeFilter !== 'all' && (
-                <Badge variant="secondary" className="gap-1.5 rounded-full">
-                  {workTypeFilter}
-                  <button onClick={() => setWorkTypeFilter('all')}><X className="w-3 h-3" /></button>
-                </Badge>
-              )}
-            </div>
-          )}
         </div>
 
         {/* Results */}
@@ -210,10 +184,10 @@ export default function Internships() {
             Array.from({ length: 4 }).map((_, i) => <InternshipCardSkeleton key={i} />)
           ) : internships.length === 0 ? (
             <EmptyState
-              icon={<Briefcase className="w-8 h-8 text-muted-foreground" />}
-              title="No internships found"
-              description={hasFilters ? "Try adjusting your filters to see more results" : "Check back soon for new opportunities"}
-              action={hasFilters ? <Button variant="outline" onClick={clearFilters} className="rounded-lg">Clear Filters</Button> : undefined}
+              icon={<CompassIcon size={32} className="text-muted-foreground" />}
+              title="No roles found"
+              description={hasFilters ? "Try adjusting your filters" : "Check back soon for new opportunities"}
+              action={hasFilters ? <Button variant="outline" onClick={clearFilters} className="rounded-md font-sans text-sm">Clear filters</Button> : undefined}
             />
           ) : (
             internships.map(internship => (
@@ -236,8 +210,8 @@ export default function Internships() {
         </div>
 
         {!isLoading && internships.length > 0 && (
-          <p className="text-sm text-muted-foreground mt-8 text-center">
-            Showing {internships.length} internship{internships.length !== 1 ? 's' : ''}
+          <p className="text-xs text-muted-foreground mt-10 text-center font-sans">
+            {internships.length} role{internships.length !== 1 ? 's' : ''}
           </p>
         )}
       </main>

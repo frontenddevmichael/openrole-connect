@@ -5,7 +5,7 @@ import { useAuth } from '@/lib/auth';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { InternshipCard } from '@/components/internships/InternshipCard';
 import { EmptyState } from '@/components/ui/EmptyState';
-import { Bookmark } from 'lucide-react';
+import { BookmarkIcon } from '@/components/icons';
 
 export default function StudentSaved() {
   const { user, profile, isLoading } = useAuth();
@@ -27,9 +27,9 @@ export default function StudentSaved() {
 
   return (
     <DashboardLayout>
-      <h1 className="text-2xl font-semibold mb-6">Saved Internships</h1>
+      <h1 className="font-serif text-2xl text-foreground mb-8">Saved roles</h1>
       {saved.length === 0 ? (
-        <EmptyState icon={<Bookmark className="w-8 h-8 text-muted-foreground" />} title="No saved internships" description="Browse and save internships you're interested in" />
+        <EmptyState icon={<BookmarkIcon size={24} className="text-muted-foreground" />} title="Nothing saved" description="Browse and save roles you're interested in." />
       ) : (
         <div className="space-y-4">
           {saved.map(s => (
