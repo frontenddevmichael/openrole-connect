@@ -3,20 +3,10 @@ import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/lib/auth';
 import { Header } from './Header';
-import {
-  LayoutDashboard,
-  User,
-  Bookmark,
-  FileText,
-  PlusCircle,
-  Users,
-  Shield
-} from 'lucide-react';
 
 interface NavItem {
   label: string;
   href: string;
-  icon: ReactNode;
 }
 
 interface DashboardLayoutProps {
@@ -28,34 +18,34 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const location = useLocation();
 
   const studentNav: NavItem[] = [
-    { label: 'Overview', href: '/student-dashboard', icon: <LayoutDashboard className="w-4 h-4" /> },
-    { label: 'Profile', href: '/student-dashboard/profile', icon: <User className="w-4 h-4" /> },
-    { label: 'Saved', href: '/student-dashboard/saved', icon: <Bookmark className="w-4 h-4" /> },
-    { label: 'Applications', href: '/student-dashboard/applications', icon: <FileText className="w-4 h-4" /> },
+    { label: 'Overview', href: '/student-dashboard' },
+    { label: 'Profile', href: '/student-dashboard/profile' },
+    { label: 'Saved', href: '/student-dashboard/saved' },
+    { label: 'Applications', href: '/student-dashboard/applications' },
   ];
 
   const orgNav: NavItem[] = [
-    { label: 'Overview', href: '/organization-dashboard', icon: <LayoutDashboard className="w-4 h-4" /> },
-    { label: 'Profile', href: '/organization-dashboard/profile', icon: <User className="w-4 h-4" /> },
-    { label: 'Post Internship', href: '/organization-dashboard/post', icon: <PlusCircle className="w-4 h-4" /> },
-    { label: 'Applicants', href: '/organization-dashboard/applicants', icon: <Users className="w-4 h-4" /> },
+    { label: 'Overview', href: '/organization-dashboard' },
+    { label: 'Profile', href: '/organization-dashboard/profile' },
+    { label: 'Post role', href: '/organization-dashboard/post' },
+    { label: 'Applicants', href: '/organization-dashboard/applicants' },
   ];
 
   const adminNav: NavItem[] = [
-    { label: 'Overview', href: '/admin-dashboard', icon: <LayoutDashboard className="w-4 h-4" /> },
-    { label: 'Moderate', href: '/admin-dashboard/moderate', icon: <Shield className="w-4 h-4" /> },
+    { label: 'Overview', href: '/admin-dashboard' },
+    { label: 'Moderate', href: '/admin-dashboard/moderate' },
   ];
 
   const navItems = isAdmin ? adminNav : profile?.role === 'organization' ? orgNav : studentNav;
 
   return (
-    <div className="min-h-screen bg-surface-sunken">
+    <div className="min-h-screen bg-background">
       <Header />
-      <div className="page-container py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
+      <div className="page-container py-10 md:py-16">
+        <div className="flex flex-col lg:flex-row gap-12">
           {/* Sidebar */}
-          <aside className="w-full lg:w-60 flex-shrink-0">
-            <nav className="bg-card rounded-xl border border-border/60 p-2 space-y-0.5">
+          <aside className="w-full lg:w-48 flex-shrink-0">
+            <nav className="space-y-1">
               {navItems.map((item) => {
                 const isActive = location.pathname === item.href;
                 return (
@@ -63,13 +53,15 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                     key={item.href}
                     to={item.href}
                     className={cn(
-                      'flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200',
+                      'block text-sm font-sans py-1.5 transition-colors',
                       isActive
-                        ? 'bg-primary text-primary-foreground shadow-sm'
-                        : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
+                        ? 'text-foreground font-medium'
+                        : 'text-muted-foreground hover:text-foreground'
                     )}
                   >
-                    {item.icon}
+                    {isActive && (
+                      <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary mr-2 align-middle" />
+                    )}
                     {item.label}
                   </Link>
                 );
